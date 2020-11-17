@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
 from flask_socketio import SocketIO
-from database import create_user
+from database import create_user, list_users, add_contact
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
@@ -33,6 +33,7 @@ def logout():
 def login():
     if request.method == "GET":
         return render_template('login.html')
+
     if request.form['password'] == 'password' and request.form['username'] == 'admin':
         session['logged_in'] = True
         session['username'] = request.form['username']
@@ -40,7 +41,6 @@ def login():
     else:
         flash('wrong password!')
         return
-
 
 @app.route('/register', methods=["POST", "GET"])
 def register():
@@ -61,6 +61,26 @@ def register_user():
     session['logged_in'] = True
     session['username'] = request.form['username']
     return sessions()
+
+
+
+@app.route('/add_contact', methods=["POST"])
+def add_friend():
+    add_contact(session["username"], request.form["user"])
+    return render_template("find_contacts.html")
+
+@app.route('/find_contacts', methods=["POST", "GET"])
+def find_contacts():
+    # if user makes a request
+    if request.method == "POST":
+        search = request.form["username"]
+        users = list_users(search)
+    else:
+        # load in every contact from database
+        users = list_users()
+
+    userlen = len(users)
+    return render_template("find_contacts.html", **locals())
 
 
 if __name__ == '__main__':
