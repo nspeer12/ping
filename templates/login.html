@@ -1,7 +1,26 @@
-<form action="/login" method="POST">
-  <input type="username" name="username" placeholder="Username">
-  <input type="password" name="password" placeholder="Password">
-  <input type="submit" value="Log in">
-</form>
+{% extends "layout.html" %}
+{% block body %}
 
-<a href="register">Register</a>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1"></div>
+      <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1 rounded bg-primary p-10 m-5 justify-content-center text-left">
+        <h3 class="text-white text-center m-3">Welcome back!</h3>
+        <form class="p-2" action="/login" method="POST">
+          <div class="text-center">
+            <input class="m-2" type="username" name="username" placeholder="Username">
+            <input class="m-2" type="password" name="password" placeholder="Password">
+          </div>
+          <div class="text-center m-2">
+            <input type="submit" value="Log in">
+          </div>
+          <div class="text-center">
+            <a href="register" class="text-white">Not a member? Sign Up Today!</a>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1"></div>
+  </div>
+</div>
+
+{% endblock %}

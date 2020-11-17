@@ -1,6 +1,28 @@
-<form action="/register_user" method="POST">
-  <input type="username" name="username" placeholder="Username">
-  <input type="email" name="email" placeholder="Email">
-  <input type="password" name="password" placeholder="Password">
-  <input type="submit" value="Register">
-</form>
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1"></div>
+      <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1 rounded bg-primary p-10 m-5 justify-content-center text-left">
+        <h3 class="text-white text-center m-3">Join the fun!</h3>
+        <form action="/register_user" method="POST">
+          <div class="text-center">
+            <input class="m-2" type="username" name="username" placeholder="Username">
+            <input class="m-2" type="email" name="email" placeholder="Email">
+            <input class="m-2" type="password" name="password" placeholder="password">
+          </div>
+          <div class="text-center m-2">
+            <input type="submit" value="Register">
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1">
+        {% if error != None %}
+          {% include "error.html" %}
+        {% endif %}
+      </div>
+  </div>
+</div>
+
+{% endblock %}

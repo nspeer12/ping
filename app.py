@@ -31,6 +31,8 @@ def logout():
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
+    if request.method == "GET":
+        return render_template('login.html')
     if request.form['password'] == 'password' and request.form['username'] == 'admin':
         session['logged_in'] = True
         session['username'] = request.form['username']
@@ -53,8 +55,7 @@ def register_user():
     res = create_user(username, email, password)
     if res != "registration successful!":
         error = res
-        print(error)
-        return render_template('error.html', **locals())
+        return render_template('register.html', **locals())
 
 
     session['logged_in'] = True
