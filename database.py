@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 import json
-
+from hashlib import sha256
 
 db = "database.db"
 
@@ -29,18 +29,44 @@ def create_user(name, email, password):
 	ID = len(df)
 
 	# hash password
-	password = hash(password)
+	password = sha256(password.encode('utf-8')).hexdigest()
 
 	c = conn.cursor()
 	contacts =  '{"contacts":[]}'
 	messages = '{"messages":[]}'
-	print(json.dumps(messages))
-	c.execute("INSERT INTO users VALUES (\'{}\', \'{}\',\'{}\',\'{}\',\'{}\',\'{}\');".format(ID, email, name, password, json.dumps(contacts), json.dumps(messages)))
+	c.execute("INSERT INTO users VALUES (\'{}\', \'{}\',\'{}\',\'{}\',\'{}\',\'{}\');".format(ID, email, name, password, contacts, messages))
 	print("inserted user")
 	conn.commit()
 	conn.close()
 
 	return "registration successful!"
+
+
+def check_user(user, password):
+	conn = sqlite3.connect(db)
+
+	# check for valid new username and EMAIL
+	query = "SELECT * FROM users WHERE NAME = \"{}\"".format(user)
+	df = pd.read_sql_query(query, conn)
+
+	# no users found
+	if len(df) == 0:
+		return -1
+
+	password = sha256(password.encode('utf-8')).hexdigest()
+
+	db_pass = df["PASSWORD"].to_list()[0]
+
+	print(password)
+	print(db_pass)
+
+	if db_pass == password:
+		print('password correct')
+		print(df["PASSWORD"])
+		return 1
+	else:
+		print('password incorrect')
+		return 0
 
 def list_users(search=None):
 	# allows to search for users or list every user on the platform
@@ -65,9 +91,8 @@ def add_contact(user, contact):
 	df = pd.read_sql_query(query, conn)
 
 	# load in contact list
-	contact_json = json.loads(json.loads(df["contacts"].values[0]))
+	contact_json = json.loads(df["contacts"].values[0])
 	contact_list = contact_json["contacts"]
-	contact_list.append("nick")
 	contact_list.append(contact)
 	print(contact_list)
 
@@ -82,8 +107,22 @@ def add_contact(user, contact):
 	c.execute(query)
 	conn.commit()
 	conn.close()
-
 	return True
+
+
+def load_all_friends(username):
+	# get user
+	conn = sqlite3.connect(db)
+	query = "SELECT * FROM users WHERE NAME = \"{}\"".format(username)
+	df = pd.read_sql_query(query, conn)
+
+
+	# load in contact list
+	contact_json = json.loads(df["contacts"].values[0])
+	print(contact_json)
+	contact_list = contact_json["contacts"]
+	print(contact_list)
+	return contact_list
 
 
 if __name__=="__main__":

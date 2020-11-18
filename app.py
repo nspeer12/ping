@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
 from flask_socketio import SocketIO
-from database import create_user, list_users, add_contact
+from database import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
@@ -23,6 +23,11 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 	socketio.emit('my response', json, callback=messageReceived)
 
 
+@app.route('/friends')
+def get_friends():
+    friends = load_all_friends(session['username'])
+    return render_template('friends.html', **locals())
+
 @app.route('/logout', methods=["POST", "GET"])
 def logout():
     session['logged_in'] = False
@@ -33,14 +38,18 @@ def logout():
 def login():
     if request.method == "GET":
         return render_template('login.html')
-
-    if request.form['password'] == 'password' and request.form['username'] == 'admin':
-        session['logged_in'] = True
-        session['username'] = request.form['username']
-        return sessions()
     else:
-        flash('wrong password!')
-        return
+        # login attempt
+        status = check_user(request.form['username'], request.form['password'])
+        if status == 1:
+            session['logged_in'] = True
+            session['username'] = request.form['username']
+            return sessions()
+        else:
+            flash('wrong password!')
+            error = "wrong password"
+            return render_template('login.html', **locals())
+
 
 @app.route('/register', methods=["POST", "GET"])
 def register():
