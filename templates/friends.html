@@ -9,9 +9,8 @@
             <div class="card-body">
               <h5 class="card-title">{{ friend }}</h5>
               <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-              <form action="/add_contact" method="post">
-                <input type="hidden" name="user" value="{{ friend }}">
-                <input class="btn btn-primary" type="submit" name="connect" value="Connect"/>
+              <form action="/chat/{{ friend }}" method="get">
+                <input class="btn btn-primary" type="submit" name="connect" value="Chat"/>
               </form>
             </div>
           </div>

@@ -82,8 +82,6 @@ def list_users(search=None):
 		df = pd.read_sql_query(query, conn)
 		return df["NAME"].values
 
-
-
 def add_contact(user, contact):
 	# get user
 	conn = sqlite3.connect(db)

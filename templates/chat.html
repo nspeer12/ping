@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>{{ friend }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <form action="" method="post">
+          <input name="message" type="text"/>
+        </form>
+      </div>
+
+      <div class="col-lg-12">
+        <div class="container">
+            {% for message in messages %}
+              <div class="col-lg-12">
+                {{ message }}
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}

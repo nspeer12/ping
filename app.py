@@ -78,6 +78,17 @@ def add_friend():
     add_contact(session["username"], request.form["user"])
     return render_template("find_contacts.html")
 
+
+@app.route('/chat/<friend>', methods=["GET", "POST"])
+def chat_with_friend(friend):
+    messages = []
+
+    if request.method == "POST":
+        messages.append(request.form["message"])
+
+    return render_template("chat.html", **locals())
+
+
 @app.route('/find_contacts', methods=["POST", "GET"])
 def find_contacts():
     # if user makes a request
