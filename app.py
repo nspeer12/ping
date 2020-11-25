@@ -8,6 +8,12 @@ app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
 socketio = SocketIO(app)
 
 @app.route('/')
+def index():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return render_template('home.html', **locals())
+        
 def sessions():
     if not session.get('logged_in'):
         return render_template('login.html')
@@ -27,6 +33,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 def get_friends():
     friends = load_all_friends(session['username'])
     return render_template('friends.html', **locals())
+
 
 @app.route('/logout', methods=["POST", "GET"])
 def logout():
