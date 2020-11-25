@@ -28,16 +28,25 @@
     -->
   </div>
 
-  <section class="bg-dark">
-  <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
-  <div class="message_holder"></div>
+  <section class="">
+
+  <div class="container">
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2"></div>
+    <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10 bg-light-rounded">
+      <h3 class="display-5">No message yet...</h3>
+
+      <form action="" method="POST">
+        <input type="hidden" class="username" value="{{ session['username']}}"/>
+        <input type="text" class="message" placeholder="Message"/>
+        <input type="submit"/>
+      </form>
+
+      <div class="message_holder" style="max-width: 50%; height: auto;"></div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2"></div>
+  </div>
 
 
-  <form action="" method="POST">
-    <input type="hidden" class="username" value="{{ session['username']}}"/>
-    <input type="text" class="message" placeholder="Message"/>
-    <input type="submit"/>
-  </form>
 
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -64,7 +73,7 @@
           console.log( msg )
           if( typeof msg.user_name !== 'undefined' ) {
             $( 'h3' ).remove()
-            $( 'div.message_holder' ).append( '<div><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+            $( 'div.message_holder' ).append( '<div class="rounded text-white bg-primary my-2 p-2 msg"><b>'+msg.user_name+': </b> '+msg.message+'</div>' )
           }
         })
       </script>

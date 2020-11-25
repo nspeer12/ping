@@ -12,8 +12,9 @@ def index():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return render_template('home.html', **locals())
-        
+        friends = load_all_friends(session['username'])
+        return render_template('friends.html', **locals())
+
 def sessions():
     if not session.get('logged_in'):
         return render_template('login.html')
@@ -27,13 +28,6 @@ def messageReceived(methods=['GET', 'POST']):
 def handle_my_custom_event(json, methods=['GET', 'POST']):
 	print('received my event: ' + str(json))
 	socketio.emit('my response', json, callback=messageReceived)
-
-
-@app.route('/friends')
-def get_friends():
-    friends = load_all_friends(session['username'])
-    return render_template('friends.html', **locals())
-
 
 @app.route('/logout', methods=["POST", "GET"])
 def logout():
@@ -51,7 +45,7 @@ def login():
         if status == 1:
             session['logged_in'] = True
             session['username'] = request.form['username']
-            return sessions()
+            return index()
         else:
             flash('wrong password!')
             error = "wrong password"
@@ -111,4 +105,4 @@ def find_contacts():
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, host='0.0.0.0', debug=True)
