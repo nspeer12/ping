@@ -74,10 +74,10 @@ def register_user():
 
 
 
-@app.route('/add_contact', methods=["POST"])
+@app.route('/add_contact', methods=["POST", "GET"])
 def add_friend():
     add_contact(session["username"], request.form["user"])
-    return render_template("find_contacts.html")
+    return chat_with_friend(request.form["user"])
 
 
 @app.route('/chat/<friend>', methods=["GET", "POST"])
@@ -85,7 +85,12 @@ def chat_with_friend(friend):
     messages = []
 
     if request.method == "POST":
-        messages.append(request.form["message"])
+        try:
+            messages.append(request.form["message"])
+        except:
+            pass
+
+    friends = load_all_friends(session['username'])
 
     return render_template("chat.html", **locals())
 
@@ -101,6 +106,7 @@ def find_contacts():
         users = list_users()
 
     userlen = len(users)
+    friends = load_all_friends(session['username'])
     return render_template("find_contacts.html", **locals())
 
 

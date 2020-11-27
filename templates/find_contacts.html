@@ -1,19 +1,23 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form class="p-2" action="/find_contacts" method="POST">
-    <div class="text-center">
-      <input class="m-2" type="username" name="username" placeholder="Username">
+  <div class="row justify-content-center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 justify-content-center">
+      <form class="m-2" action="/find_contacts" method="POST">
+        <div class="form-group">
+          <input class="form-text" type="username" name="username" placeholder="search by username">
+        </div>
+        <div class="form-group m-2">
+          <input type="submit" class="btn btn-primary" value="Find Users">
+        </div>
+      </form>
     </div>
-    <div class="text-center m-2">
-      <input type="submit" value="Find Users">
-    </div>
-  </form>
+  </div>
 
-  <div class="container">
-    <div class="row justify-content-center">
+  <div class="container-fluid">
+    <div class="row">
       {% if userlen != 0 %}
         {% for user in users %}
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 m-2">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             <div class="card" style="width: 18rem;">
               <div class="card-body">
                 <h5 class="card-title">{{ user }}</h5>
@@ -29,6 +33,7 @@
       {% else %}
     </div>
   </div>
+
     <div class="col-md-12 justify-content-center">
       <p>No users found :(</p>
     </div>
