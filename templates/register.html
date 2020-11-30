@@ -1,10 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1"></div>
-      <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1 rounded bg-primary p-10 m-5 justify-content-center text-left">
+<div class="container-fluid">
+  <div class="row justify-content-center">
+      <div class="col-centered col-lg-12 col-md-12 col-sm-12 col-xs-12 my-5 p-3 rounded bg-primary" style="float: none;">
         <h3 class="text-white text-center m-3">Join the fun!</h3>
         <form action="/register_user" method="POST">
           <div class="text-center">
@@ -17,7 +16,6 @@
           </div>
         </form>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-1 col-xs-1">
         {% if error != None %}
           {% include "error.html" %}
         {% endif %}
