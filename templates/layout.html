@@ -16,9 +16,8 @@
 
     {% include "navbar.html" %}
     <div class="d-flex" id="wrapper">
-      {% if friends != None %}
-        {% include "sidebar.html" %}
-      {% endif %}
+      {% block sidebar %}
+      {% endblock %}
       <div id="page-content-wrapper">
         <div class="container-fluid">
           {% block body %}

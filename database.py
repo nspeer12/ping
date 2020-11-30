@@ -91,7 +91,10 @@ def add_contact(user, contact):
 	# load in contact list
 	contact_json = json.loads(df["contacts"].values[0])
 	contact_list = contact_json["contacts"]
-	contact_list.append(contact)
+
+	if contact not in contact_list:
+		contact_list.append(contact)
+		
 	print(contact_list)
 
 	contact_json["contacts"] = contact_list

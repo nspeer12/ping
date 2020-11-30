@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block sidebar %}
+  {% include "sidebar.html" %}
+{% endblock %}
 {% block body %}
   <div class="text-center justify-content-center p-2">
     <p class="h4"> Chatting with {{ friend }}</p>
@@ -49,7 +52,7 @@
       console.log( msg )
       if( typeof msg.user_name !== 'undefined' ) {
         $( 'h3' ).remove()
-        $( 'div.message_holder' ).append( '<div class="span rounded text-white bg-primary my-2 p-1 msg col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width:100%;"> <b>'+msg.user_name+': </b> '+msg.message+'</div>' )
+        $( 'div.message_holder' ).prepend('<div class="span rounded text-white bg-primary my-2 p-1 msg col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width:100%;"> <b>'+msg.user_name+': </b> '+msg.message+'</div>' )
       }
     })
   </script>

@@ -10,7 +10,8 @@ socketio = SocketIO(app)
 @app.route('/')
 def index():
     if not session.get('logged_in'):
-        return render_template('login.html')
+        friends = None
+        return render_template('login.html', **locals())
     else:
         friends = load_all_friends(session['username'])
         return render_template('friends.html', **locals())
